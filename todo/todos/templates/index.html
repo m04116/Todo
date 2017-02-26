@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Todo List!</h1>
+
+    {% for task in tasks %}
+      <ul>
+        <li><a href="task/{{task.pk}}">{{task.title}}, {{task.text}}</a>
+            <p>Deadline: {{task.deadline}}</p>
+            {%if task.get_comment_count%}
+              <p>{{task.get_comment_count}} comment(s)</p>
+            {%else%}
+              <p>No comments</p>
+            {%endif%}
+        </li>
+          <form action="{% url 'done' task.id %}" method="GET">
+            {% csrf_token %}
+              
+              {% if not task.done_check %}
+                <p>In process...</p>
+              {% else %}
+                <p>Done!</p>
+              {% endif %}
+                          
+            {% for choice in question.choice_set.all %}
+            <input type="checkbox" name="done" value="{{ task.id }}" />
+            </label><br />
+    
+    {% endfor %}
+    <input type="submit" value="Done" />
+    </form>
+      </ul>
+
+
+    {% empty %}
+        <p>No tasks yet :(</p>
+    {% endfor %}
+
+    <form action="#" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Add">
+    </form>
+
+
+  </body>
+</html>
